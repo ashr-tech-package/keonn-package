@@ -2,7 +2,8 @@
 
 namespace Ashr\Keonn\Services;
 
-use Ashr\Keonn\Services\Api\Catalogue;
+use Ashr\Keonn\Services\Api\DataManagement;
+use Ashr\Keonn\Services\Api\Configuration;
 use Ashr\Keonn\Services\Api\Media;
 use Ashr\Keonn\Services\Concern\HandleAuthentication;
 use BadMethodCallException;
@@ -16,12 +17,13 @@ class KeonnApi
         __call as macroCall;
     }
     use HandleAuthentication;
-    use Catalogue;
+    use DataManagement;
     use Media;
 
     public static array $escapedMethods = [
         'createRequestInstance',
         'login',
+        'interactWithApiProduct',
     ];
 
     public static array $storageMethods = [

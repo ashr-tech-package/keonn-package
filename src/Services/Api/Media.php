@@ -52,7 +52,8 @@ trait Media
             throw new Exception('Cannot get file, please provide valid path!');
         }
 
-        return Storage::disk('keonn_sftp')->put($this->config['app_mode'] . '/' . $fileName, $file);
+        return Storage::disk('keonn_sftp')
+            ->put($this->config['app_mode'] . '/' . $fileName, $file);
     }
 
     /**
@@ -63,6 +64,7 @@ trait Media
      */
     public function deleteFile(string $fileName): bool
     {
-        return Storage::disk('keonn_sftp')->delete($this->config['app_mode'] . '/' . $fileName);
+        return Storage::disk('keonn_sftp')
+            ->delete($this->config['app_mode'] . '/' . $fileName);
     }
 }

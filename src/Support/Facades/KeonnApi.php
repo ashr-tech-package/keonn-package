@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static clonePart(string $part)
  * @method static uploadFile(mixed $file, string $fileName)
  * @method static deleteFile(string $fileName)
+ * @method static uploadStock(array $data, string $shop, array $optionals)
  */
 class KeonnApi extends Facade
 {

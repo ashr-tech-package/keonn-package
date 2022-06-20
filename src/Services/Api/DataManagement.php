@@ -101,7 +101,7 @@ trait DataManagement
         }
 
         $path = storage_path('app');
-        $fileName = sprintf('%s_%s.csv', time(), rand(100000000, 100000000));
+        $fileName = sprintf('%s_%s_%s.csv', 'product', time(), rand(10000, 100000000));
         $filePath = sprintf('%s/%s', $path, $fileName);
         $file = fopen($filePath, 'w');
         fputcsv($file, array_keys($data));

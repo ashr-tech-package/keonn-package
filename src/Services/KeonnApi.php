@@ -3,8 +3,8 @@
 namespace Ashr\Keonn\Services;
 
 use Ashr\Keonn\Services\Api\DataManagement;
-use Ashr\Keonn\Services\Api\Configuration;
 use Ashr\Keonn\Services\Api\Media;
+use Ashr\Keonn\Services\Api\StockManagement;
 use Ashr\Keonn\Services\Concern\HandleAuthentication;
 use BadMethodCallException;
 use Illuminate\Http\Client\PendingRequest;
@@ -18,12 +18,14 @@ class KeonnApi
     }
     use HandleAuthentication;
     use DataManagement;
+    use StockManagement;
     use Media;
 
     public static array $escapedMethods = [
         'createRequestInstance',
         'login',
         'interactWithApiProduct',
+        'validateStock',
     ];
 
     public static array $storageMethods = [

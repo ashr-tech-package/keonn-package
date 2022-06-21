@@ -32,8 +32,23 @@ return [
 
             // Optional SFTP Settings...
             'port' => (int) env('KEONN_SFTP_PORT', 22),
+        ],
+        'keonn_webdav' => [
+            'driver'     => 'webdav',
+            'baseUri'    => env("KEONN_WEBDAV_BASEURL"),
+            'userName'   => env("KEONN_WEBDAV_USERNAME"),
+            'password'   => env("KEONN_WEBDAV_PASSWORD"),
+
+            //Optional parameters
+            'proxy'      => env("KEONN_WEBDAV_PROXY", null),
+            'pathPrefix' => env("KEONN_WEBDAV_PATH_PREFIX", null),
+            'authType'   => env("KEONN_WEBDAV_AUTH_TYPE", null),
+            'encoding'   => env("KEONN_WEBDAV_ENCODING", null),
+            'port' => (int) env('KEONN_WEBDAV_PORT', 443),
         ]
     ],
+
+    'keonn_storage_driver' => env('KEONN_STORAGE_DRIVER', 'sftp'),
 
     /*
     |--------------------------------------------------------------------------

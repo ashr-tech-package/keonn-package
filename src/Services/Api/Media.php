@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use SplFileInfo;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait Media
 {
@@ -14,10 +15,10 @@ trait Media
      *
      * @param mixed $file
      * @param string $fileName
-     * @return bool
+     * @return string
      * @throws Exception
      */
-    public function uploadFile(mixed $file, string $fileName): bool
+    public function uploadFile(mixed $file, string $fileName): string
     {
         if (is_null($file) || trim($file) === '') {
             throw new Exception('Invalid file!');
@@ -52,8 +53,10 @@ trait Media
             throw new Exception('Cannot get file, please provide valid path!');
         }
 
-        return Storage::disk('keonn_sftp')
-            ->put($this->config['app_mode'] . '/' . $fileName, $file);
+        $path = $this->getStoragePath();
+
+        return Storage::disk($this->getStorageDisk())
+            ->put($path . $fileName, $file) ? $fileName : '';
     }
 
     /**
@@ -64,7 +67,36 @@ trait Media
      */
     public function deleteFile(string $fileName): bool
     {
-        return Storage::disk('keonn_sftp')
-            ->delete($this->config['app_mode'] . '/' . $fileName);
+        $path = $this->getStoragePath();
+
+        return Storage::disk($this->getStorageDisk())
+            ->delete($path . $fileName);
+    }
+
+    /**
+     * Get file path
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public function getFilePath(string $fileName): string
+    {
+        $path = $this->getStoragePath() . $fileName;
+
+        if (Storage::disk($this->getStorageDisk())->exists($path)) {
+            return Storage::disk($this->getStorageDisk())->url($path);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    public function getStoragePath(): string
+    {
+        return $this->config['keonn_storage_driver'] === 'sftp' ? $this->config['app_mode'] . '/' : '';
+    }
+
+    public function getStorageDisk(): string
+    {
+        return 'keonn_' . $this->config['keonn_storage_driver'];
     }
 }

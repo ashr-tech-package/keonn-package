@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static clonePart(string $part)
  * @method static uploadFile(mixed $file, string $fileName)
  * @method static deleteFile(string $fileName)
+ * @method static getFilePath(string $fileName)
  * @method static uploadStock(array $data, string $shop, array $optionals = [])
  * @method static downloadStock(string $shop, string $reportType = 'json', array $optionals = [])
  * @method static downloadStockByInventoryCode(string $code, string $shop, string $reportType = 'json', array $optionals = [])

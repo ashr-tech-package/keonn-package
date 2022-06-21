@@ -33,6 +33,7 @@ class KeonnApi
     public static array $storageMethods = [
         'uploadFile',
         'deleteFile',
+        'getFile',
     ];
 
     /**

@@ -24,7 +24,11 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/keonn.php', 'keonn');
 
-        config(['filesystems.disks.keonn_sftp' => config('keonn.disks.keonn_sftp')]);
+        if (config('keonn.keonn_storage_driver') === 'sftp') {
+            config(['filesystems.disks.keonn_sftp' => config('keonn.disks.keonn_sftp')]);
+        } else {
+            config(['filesystems.disks.keonn_webdav' => config('keonn.disks.keonn_webdav')]);
+        }
 
         $this->app->singleton(KeonnApi::class, function (Container $app) {
             return new KeonnApi($app['config']['keonn']);

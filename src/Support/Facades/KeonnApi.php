@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static updateProduct(array $data, bool $allFields = false)
  * @method static deleteProduct(array $data)
  * @method static createOrUpdateProduct(array $data, bool $allFields = false)
+ * @method static getProduct(array $data, string $reportType = 'json')
  * @method static deletePart(string $part)
  * @method static clonePart(string $part)
  * @method static uploadFile(mixed $file, string $fileName)

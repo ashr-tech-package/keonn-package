@@ -37,7 +37,7 @@ trait DataManagement
         return $this->interactWithApiProduct(
             $data,
             'import',
-            'excel',
+            'json',
             $allFields,
             true
         );
@@ -56,6 +56,10 @@ trait DataManagement
         return $this->interactWithApiProduct(
             $data,
             'delete',
+            'json',
+            false,
+            false,
+            true
         );
     }
 
@@ -70,31 +74,63 @@ trait DataManagement
         return $this->interactWithApiProduct(
             $data,
             'import',
-            'excel',
+            'json',
             $allFields
         );
     }
 
     /**
+     * Get data product
+     *
+     * @param array $data
+     * @param string $reportType
+     * @return Response
+     * @throws RequestException
+     * @throws ValidationException
+     */
+    public function getProduct(array $data, string $reportType = 'json'): Response
+    {
+        return $this->interactWithApiProduct(
+            $data,
+            'export',
+            $reportType,
+            false,
+            false,
+            true
+        );
+    }
+
+    /**
+     * Interact with api product keonn
+     *
+     * @param array $data
+     * @param string $operation
+     * @param string $reportType
+     * @param bool $allFields
+     * @param bool $updateOnly
+     * @param bool $skipValidation
+     * @return Response
      * @throws RequestException
      * @throws ValidationException
      */
     public function interactWithApiProduct(
         array $data,
         string $operation = 'import',
-        string $reportType = 'excel',
+        string $reportType = 'json',
         bool $allFields = false,
         bool $updateOnly = false,
+        bool $skipValidation = false
     ): Response
     {
-        if (isset($data[0]) && is_array($data[0])) {
-            foreach ($data as $dt) {
-                $this->validateProduct($dt);
+        if (!$skipValidation) {
+            if (isset($data[0]) && is_array($data[0])) {
+                foreach ($data as $dt) {
+                    $this->validateProduct($dt);
+                }
+            } else {
+                $this->validateProduct($data);
             }
-        } else {
-            $this->validateProduct($data);
         }
-
 
         if (!Storage::disk('local')->exists('keonn/product')) {
             Storage::disk('local')->makeDirectory('keonn/product');

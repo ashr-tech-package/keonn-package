@@ -4,6 +4,7 @@ namespace Ashr\Keonn\Services;
 
 use Ashr\Keonn\Services\Api\DataManagement;
 use Ashr\Keonn\Services\Api\Media;
+use Ashr\Keonn\Services\Api\Report;
 use Ashr\Keonn\Services\Api\StockManagement;
 use Ashr\Keonn\Services\Concern\HandleAuthentication;
 use BadMethodCallException;
@@ -19,6 +20,7 @@ class KeonnApi
     use HandleAuthentication;
     use DataManagement;
     use StockManagement;
+    use Report;
     use Media;
 
     public static array $escapedMethods = [

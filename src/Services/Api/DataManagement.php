@@ -4,6 +4,7 @@ namespace Ashr\Keonn\Services\Api;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -86,26 +87,32 @@ trait DataManagement
         bool $updateOnly = false,
     ): Response
     {
-        $validator = Validator::make($data, [
-            'itemtype' => 'required',
-            'productid' => 'required',
-            'skuid' => ['required_if:itemtype,==,skucolor', 'required_if:itemtype,==,sku'],
-            'code' => ['required_if:itemtype,==,skucolor', 'required_if:itemtype,==,sku'],
-            'name' => 'required',
-            'category' => 'nullable|numeric|min:0',
-            'price' => 'nullable|numeric|min:0',
-        ]);
-
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
+        if (isset($data[0]) && is_array($data[0])) {
+            foreach ($data as $dt) {
+                $this->validateProduct($dt);
+            }
+        } else {
+            $this->validateProduct($data);
         }
 
-        $path = storage_path('app');
+
+        if (!Storage::disk('local')->exists('keonn/product')) {
+            Storage::disk('local')->makeDirectory('keonn/product');
+        }
+
+        $path = storage_path('app/keonn/product');
         $fileName = sprintf('%s_%s_%s.csv', 'product', time(), rand(10000, 100000000));
         $filePath = sprintf('%s/%s', $path, $fileName);
         $file = fopen($filePath, 'w');
-        fputcsv($file, array_keys($data));
-        fputcsv($file, array_values($data));
+        if (isset($data[0]) && is_array($data[0])) {
+            fputcsv($file, array_keys($data[0]));
+            foreach ($data as $dt) {
+                fputcsv($file, array_values($dt));
+            }
+        } else {
+            fputcsv($file, array_keys($data));
+            fputcsv($file, array_values($data));
+        }
 
         fclose($file);
 
@@ -119,6 +126,30 @@ trait DataManagement
                 'reporttype' => $reportType,
             ])
             ->throw();
+    }
+
+    /**
+     * Validate product
+     *
+     * @param array $data
+     * @return void
+     * @throws ValidationException
+     */
+    public function validateProduct(array $data): void
+    {
+        $validator = Validator::make($data, [
+            'itemtype' => 'required',
+            'productid' => 'required',
+            'skuid' => ['required_if:itemtype,==,skucolor', 'required_if:itemtype,==,sku'],
+            'code' => ['required_if:itemtype,==,skucolor', 'required_if:itemtype,==,sku'],
+            'name' => 'required',
+            'category' => 'nullable|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
     }
 
     /**

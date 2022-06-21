@@ -4,6 +4,7 @@ namespace Ashr\Keonn\Services\Api;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -37,7 +38,11 @@ trait StockManagement
             $this->validateStockType($optionals);
         }
 
-        $path = storage_path('app');
+        if (!Storage::disk('local')->exists('keonn/stock')) {
+            Storage::disk('local')->makeDirectory('keonn/stock');
+        }
+
+        $path = storage_path('app/keonn/stock');
         $fileName = sprintf('%s_%s_%s.csv', 'stock', time(), rand(10000, 1000000000));
         $filePath = sprintf('%s/%s', $path, $fileName);
         $file = fopen($filePath, 'w');

@@ -1,0 +1,22 @@
+{
+    "name": "ashr/keonn",
+    "description": "Package for Laravel to connect Keonn web service",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ashr\\Keonn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ashr",
+            "email": "ashr.tech@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^9.9",
+        "league/flysystem-sftp-v3": "^3.0"
+    }
+}

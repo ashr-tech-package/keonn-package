@@ -28,6 +28,11 @@ class KeonnApi
         'login',
         'interactWithApiProduct',
         'validateStock',
+        'validateProduct',
+        'getCredentials',
+        'getToken',
+        'clearToken',
+        'reattemptLoginWhenUnauthorized'
     ];
 
     public static array $storageMethods = [
@@ -52,6 +57,8 @@ class KeonnApi
     public function __construct(protected array $config)
     {
         $this->createRequestInstance();
+
+        $this->reattemptLoginWhenUnauthorized($this->config['request_retry_times'], $this->config['request_retry_sleep']);
     }
 
     /**

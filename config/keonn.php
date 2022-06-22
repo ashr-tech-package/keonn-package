@@ -92,4 +92,6 @@ return [
     'request_retry_times' => env('KEONN_REQUEST_RETRY_TIMES', 2),
 
     'request_retry_sleep' => env('KEONN_REQUEST_RETRY_SLEEP', 0),
+
+    'keonn_token_expired_time' => env('KEONN_TOKEN_EXPIRED_TIME', 3600)
 ];

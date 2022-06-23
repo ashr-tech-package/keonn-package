@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static searchStock(string $shop)
  * @method static removeStock(string $code, string $shop)
  * @method static report(string $reportCode, string $reportType = 'json', array $optionals = [])
+ * @method static createOrUpdateShop(array $data)
  */
 class KeonnApi extends Facade
 {

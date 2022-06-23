@@ -3,6 +3,7 @@
 namespace Ashr\Keonn\Services;
 
 use Ashr\Keonn\Services\Api\DataManagement;
+use Ashr\Keonn\Services\Api\Entity;
 use Ashr\Keonn\Services\Api\Media;
 use Ashr\Keonn\Services\Api\Report;
 use Ashr\Keonn\Services\Api\StockManagement;
@@ -22,6 +23,7 @@ class KeonnApi
     use StockManagement;
     use Report;
     use Media;
+    use Entity;
 
     public static array $escapedMethods = [
         'createRequestInstance',
@@ -32,7 +34,8 @@ class KeonnApi
         'getCredentials',
         'getToken',
         'clearToken',
-        'reattemptLoginWhenUnauthorized'
+        'reattemptLoginWhenUnauthorized',
+        'validateShop'
     ];
 
     public static array $storageMethods = [

@@ -179,7 +179,7 @@ trait DataManagement
             'skuid' => ['required_if:itemtype,==,skucolor', 'required_if:itemtype,==,sku'],
             'code' => ['required_if:itemtype,==,skucolor', 'required_if:itemtype,==,sku'],
             'name' => 'required',
-            'category' => 'nullable|numeric|min:0',
+            'category' => 'nullable',
             'price' => 'nullable|numeric|min:0',
         ]);
 

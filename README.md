@@ -80,7 +80,7 @@ public function updateProduct()
 
 * Delete Product
 ```
-public function updateProduct()
+public function deleteProduct()
 {
     $data[] = [
         'itemtype' => 'product',
@@ -115,6 +115,90 @@ public function deletePart()
     try {
         return KeonnApi::deletePart('data');
     } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+}
+```
+
+### Inventory
+* Upload stock
+```
+public function uploadStock(Request $request)
+{
+    $data = $request->data;
+    $extra = json_encode($request->extra ?? []);
+
+    try {
+        return KeonnApi::uploadStock($data, $request->shop, [
+            'type' => $request->type,
+            'description' => 'Testing From Api Call',
+            'extra' => $extra,
+        ]);
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+}
+```
+
+* Download Stock
+```
+public function downloadStock(Request $request)
+{
+    try {
+        return KeonnApi::downloadStock($request->shop, 'json', [
+            'mode' => 'sku',
+            'type' => $request->type,
+        ]);
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+}
+```
+
+### Entity
+* Create or Update Shop:
+```
+public function createOrUpdateShop(Request $request)
+{
+    try {
+        return KeonnApi::createOrUpdateShop($request->data);
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+}
+```
+Example shop data:
+```
+{
+ "data":
+    {
+        "code": "R034",
+        "area": "BCN",
+        "name": "TOG 1234"
+    }
+}
+```
+
+* Get Data Shop:
+```
+public function getShop()
+{
+    try {
+        return KeonnApi::getShop();
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+}
+```
+
+### Report
+* Get Report: this is example get report stock
+```
+public function report(Request $request)
+{
+    try {
+        return KeonnApi::report('stock');
+    } catch (\Exception $e) {
         dd($e->getMessage());
     }
 }

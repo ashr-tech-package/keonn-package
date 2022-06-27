@@ -101,6 +101,24 @@ trait DataManagement
     }
 
     /**
+     * Verify product upload
+     *
+     * @param array $data
+     * @param string $reportType
+     * @return Response
+     * @throws RequestException
+     * @throws ValidationException
+     */
+    public function verifyProduct(array $data, string $reportType = 'json'): Response
+    {
+        return $this->interactWithApiProduct(
+            $data,
+            'verify',
+            $reportType
+        );
+    }
+
+    /**
      * Interact with api product keonn
      *
      * @param array $data

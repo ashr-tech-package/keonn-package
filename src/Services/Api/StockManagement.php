@@ -232,7 +232,7 @@ trait StockManagement
     public function validateStockType(array $data): void
     {
         $validator = Validator::make($data, [
-            'type' => 'required|in:UPLOAD,RETURN,PURCHASE,PICKING,ASN,REFERENCE,RESULT'
+            'type' => 'required'
         ]);
 
         if ($validator->fails()) {
